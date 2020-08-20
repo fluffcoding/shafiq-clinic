@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+    <div class="col-6">
+        <h3>Add Medicine</h3>
+        <hr/>
+        <form method="POST">
+            {% csrf_token %}
+            {{form|crispy}}
+            <button class="mt-3 btn btn-primary" type="submit">Add Medicine</button>
+        </form>
+    </div>
+    <div class="col-6">
+        <h3>Medicines List</h3>
+        <hr/>
+        {% for med in medicines %}
+            <div class="card m-3">
+              <div class="card-body">
+                <h1 class="display-6" style="font-size:25px;">
+                    <span class="badge bg-primary">
+                  {{med.id}}
+                </span>
+                  {{med.name}}
+                </h1>
+              </div>
+            </div>
+          {% empty %}
+          <div class="card">
+              <div class="card-body">
+                  You have no medicines
+              </div>
+            </div>
+          {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

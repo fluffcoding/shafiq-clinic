@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{%block content%}
+<div class="row">
+    <h1 class="display-4" style="margin:0; text-align:center;">{{patient.name}}
+        <a class="btn btn-primary" style="text-align:right; width:150px;" href="{% url 'patient-report' patient.id %}">Generate Report</a></h1>
+    <br/>
+    <hr/>
+    <div class="col-6">
+        <h4 class="display-6" style="margin:0; font-size:25px;">Age: {{patient.age}} years</h4>
+        <h4 class="display-6" style="margin:0; font-size:25px;">Phone Number: {{patient.phone_number}}</h4>
+        <h4 class="display-6" style="margin:0; font-size:25px;">Gender: {{patient.get_gender_display }}</h4>
+        
+        <h4 class="display-6 mt-3" style="margin:0; font-size:25px;">Current Prescription:</h4>
+        {% for disease in patient.disease.all %}
+        <div class="card mt-2">
+            <div class="card-body">
+              <h1 class="display-6" style="font-size:25px;">
+                {{disease}}
+                <form method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="id" value={{prescription.id}} />
+                  <input class="btn btn-primary mt-2" type="submit" value="Delete" name="delete"/>
+              </form>
+              </h1>
+            </div>
+          </div>
+        {%empty%}
+        <p>Patient does not have any known prescription</p>
+        {% endfor %}
+    </div>
+    <div class="col-6">
+        <h4>Prescribe Medicine to this patient</h4>
+        <hr/>
+      <form method="POST">
+          {% csrf_token %}
+          {{form|crispy}}
+          <button type="submit" class="btn btn-primary mt-2">Prescribe</button>
+      </form>
+    </div>
+      
+</div>
+    
+
+{%endblock content%}

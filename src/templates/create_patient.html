@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+    <div class="col-6">
+        <h1 class="mt-3">Add a new patient</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{patient_form|crispy}}
+            <button class="btn btn-primary m-3" type="submit" name="add_patient">Add Patient</button>
+        </form>
+        
+    </div>
+    <div class="col-6">
+        <h1 class="mt-3 ml-3">
+            Patients List
+        </h1>
+
+            {% for patient in final %}
+            <a href="{% url 'patient-detail' patient.id %}">
+              <div class="card m-3">
+                <div class="card-body">
+                  <h1 class="display-6" style="font-size:25px;">
+                      <span class="badge bg-primary">
+                    {{patient.id}}
+                  </span>
+                    {{patient.name}}
+                  </h1>
+                </div>
+              </div>
+            </a>
+            {% empty %}
+            <div class="card">
+                <div class="card-body">
+                    You have no patients
+                </div>
+              </div>
+            {% endfor %}
+            {% if patients %}
+            <a class="btn btn-primary btn-block m-3 mr-5" href="{% url 'all-patients' %}">View all patients</a>
+            {% endif %}
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-6">
+        <h1 class="">Add a disease</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{disease_form|crispy}}
+            <button class="btn btn-primary m-3" type="submit" name="add_disease">Add Disease</button>
+        </form>
+    </div>
+    <div class="col-6">
+        <h1>Diseases list</h1>
+        {% for disease in diseases %}
+            <div class="card m-3">
+                <div class="card-body">
+                  <h1 class="display-6" style="font-size:25px;">
+                      <span class="badge bg-primary">
+                    {{disease.id}}
+                  </span>
+                    {{disease.name}}
+                  </h1>
+                </div>
+              </div>
+            {% empty %}
+            <div class="card">
+                <div class="card-body">
+                    You have not entered any diseases
+                </div>
+              </div>
+            {% endfor %}
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <a href="{% url 'patient-detail' patient.id %}">
+      <div class="card m-3">
+        <div class="card-body">
+          <h1 class="display-6" style="font-size:25px;">
+              <span class="badge bg-primary">
+            {{patient.id}}
+          </span>
+            {{patient.name}}
+          </h1>
+        </div>
+      </div>
+    </a>
+
+{% endblock content %}
